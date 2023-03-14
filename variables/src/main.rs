@@ -39,6 +39,10 @@ fn main() {
     another_function(5);
 
     test_loop();
+
+    test_while();
+
+    test_for();
 }
 
 fn another_function(x: i32) {
@@ -74,4 +78,26 @@ fn test_loop() {
     };
 
     println!("result is {}", result);
+}
+
+fn test_while() {
+    let mut number = 3;
+    while number != 0 {
+        println!("{}", number);
+
+        number -= 1;
+    }
+    println!("while end");
+}
+
+fn test_for() {
+    let a = [10, 20, 30, 40, 50];
+    // item is &i32
+    for item in a.iter() {
+        println!("the value is {}", item);
+    }
+
+    for num in (1..4).rev() {
+        println!("the num is {}", num);
+    }
 }
