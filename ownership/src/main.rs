@@ -1,5 +1,14 @@
 fn main() {
 
+    //test_ownership();
+
+    test_reference();
+
+    mut_refer();
+}
+
+fn test_ownership() {
+
     // let mut s1 = String::from("hello");
     // //s.push_str(", World!");
 
@@ -36,6 +45,7 @@ fn main() {
     let s3 = takes_and_gives_back(s2);
 
     // 作用域结束 s1、s3 drop，s2 因为已经 Move 了，所以不会有什么变化
+
 }
 
 fn take_ownership(string: String) {
@@ -46,7 +56,6 @@ fn makes_copy(number: i32) {
     println!("num is {}", number);
 }
 
-
 fn gives_ownership() -> String {
     let str = String::from("hello");
     str
@@ -55,3 +64,106 @@ fn gives_ownership() -> String {
 fn takes_and_gives_back(a_string: String) -> String {
     a_string
 }
+
+
+fn test_reference() {
+    let mut s1 = String::from("hello");
+
+    /*
+        此处只是创建一个 s1 的引用传入了参数，并不拥有 s1，并没有转移所有权
+        所以当这个引入走出作用域，并不会把 s1 清理掉
+     */
+    let len = get_length(&mut s1);
+
+    println!("s1 = {}, len = {} ", s1, len);
+}
+
+fn get_length(str: &mut String) -> usize {
+    /*
+    当一个函数的参数是引用时，函数作用域结束，不需要考虑所有权，因为引用没有获得数据的所有权
+     */
+
+    str.push_str("world"); // 这里报错，不能修改，因为引用时不可变的
+    str.len() // 这里因为是引用，没有所有权，所以走出作用域什么不会做
+}
+
+fn mut_refer() {
+    let mut s = String::from("hello");
+
+    let s1 = &mut s;
+    //let s2 = &mut s; // 这里报错，因为这个作用域 s 可变引用个数不能超过一个
+
+    //println!("s1 {}, {}", s1, s2);
+
+    mut_refer2();
+
+    mut_refer3();
+
+    //dangle()
+
+    test_slice();
+}
+
+fn mut_refer2() {
+    let mut s = String::from("hello");
+    {
+        let s1 = &mut s;
+    }
+
+    let s2 = &mut s;
+
+    println!("s1 {} ", s2);
+}
+
+fn mut_refer3() {
+    let mut s = String::from("hello");
+    let s1 = &s;
+    let s2 = &s;
+    // let s3 = &mut s; // 这里报错，因为 s 因为借用为不可变的引用了
+
+    // println!("s1 {}, s2 {}, s3 {}", s1, s2, s3);
+}
+
+fn dangle() {
+    //let s = _dangle();
+}
+
+// 这个函数会返回一个悬空指针，但 Rust 中编译就会报错
+// fn _dangle() -> &String {
+//     let mut s = String::from("hello");
+//     &s
+// }
+
+fn test_slice() {
+
+    let mut s = String::from("Hello World");
+    let wordIdx = first_word(&s);
+
+    // 范围 [start, end)
+    let hello = &s[0..5];
+    let world = &s[6..11];
+
+
+    // s.clear(); 如果这里将字符串清空，wordIdx 就没有用了
+    println!("space index is {}", wordIdx);
+}
+
+fn first_word(s: &String) -> usize {
+    // 得到一个字节数组, 类型是 &[u8]
+    let bytes = s.as_bytes();
+
+    /*
+        iter() 为其创建一个迭代器, 这个方法依次返回集合中的每个元素
+        enumerate() 会把 iter() 返回的结果进行包装，并把每个结果作为元组的一部分进行返回
+        i 就是索引
+        &item 就是元素，这里就是字符串里的字节，注意 这里它是一个引用
+     */
+    for (i, &item) in bytes.iter().enumerate() {
+        // b' ' 就是空格字节
+        if item == b' ' {
+            return i;
+        }
+    }
+    s.len()
+}
+
