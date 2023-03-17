@@ -140,12 +140,35 @@ fn test_slice() {
     let wordIdx = first_word(&s);
 
     // 范围 [start, end)
-    let hello = &s[0..5];
-    let world = &s[6..11];
+    //let hello = &s[0..5];
+    let hello = &s[..5];
 
+    // let world = &s[6..11];
+    let world = &s[6..];
+
+    let whole = &s[..];
 
     // s.clear(); 如果这里将字符串清空，wordIdx 就没有用了
     println!("space index is {}", wordIdx);
+
+    println!("whole is {}", whole);
+
+    let slice = first_word2(&s);
+    println!("slice is {}", slice);
+
+    let s1 = "hello";
+
+
+    let w = first_word3(&s[..]);
+    let w1 = first_word3(s1);
+    println!("w is {}, w1 is {}", w, w1);
+
+
+    let a = [1, 2, 3, 4, 5];
+    let sliceA = &a[1..3];
+
+
+
 }
 
 fn first_word(s: &String) -> usize {
@@ -167,3 +190,42 @@ fn first_word(s: &String) -> usize {
     s.len()
 }
 
+// &str 表示字符串切片类型
+fn first_word2(s: &String) -> &str {
+    // 得到一个字节数组, 类型是 &[u8]
+    let bytes = s.as_bytes();
+
+    /*
+        iter() 为其创建一个迭代器, 这个方法依次返回集合中的每个元素
+        enumerate() 会把 iter() 返回的结果进行包装，并把每个结果作为元组的一部分进行返回
+        i 就是索引
+        &item 就是元素，这里就是字符串里的字节，注意 这里它是一个引用
+     */
+    for (i, &item) in bytes.iter().enumerate() {
+        // b' ' 就是空格字节
+        if item == b' ' {
+            return &s[..i]
+        }
+    }
+    &s[..]
+}
+
+// &str 表示字符串切片类型
+fn first_word3(s: &str) -> &str {
+    // 得到一个字节数组, 类型是 &[u8]
+    let bytes = s.as_bytes();
+
+    /*
+        iter() 为其创建一个迭代器, 这个方法依次返回集合中的每个元素
+        enumerate() 会把 iter() 返回的结果进行包装，并把每个结果作为元组的一部分进行返回
+        i 就是索引
+        &item 就是元素，这里就是字符串里的字节，注意 这里它是一个引用
+     */
+    for (i, &item) in bytes.iter().enumerate() {
+        // b' ' 就是空格字节
+        if item == b' ' {
+            return &s[..i]
+        }
+    }
+    &s[..]
+}
