@@ -158,7 +158,6 @@ fn test_slice() {
 
     let s1 = "hello";
 
-
     let w = first_word3(&s[..]);
     let w1 = first_word3(s1);
     println!("w is {}, w1 is {}", w, w1);
