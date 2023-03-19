@@ -29,6 +29,10 @@ fn main() {
 
     test_message();
 
+    test_options();
+
+    test_match();
+
 }
 
 // 
@@ -83,4 +87,97 @@ fn test_message() {
     let c = Message::ChangeColor(0, 255, 255);
     
     q.call();
+}
+
+fn test_options() {
+
+    let some_str = Some("A String");
+    let some_num =  Some(5);
+
+    let absent_num: Option<i32> = None; // 这是一个无效的值
+
+    let x: i8 = 5;
+    let y: Option<i8> = Some(5);
+
+    //let sum = x + y; // 这里报错，因为 y 不是 i8 类型
+
+
+}
+
+#[derive(Debug)]
+enum USState {
+    Alabama,
+    Alaska,
+}
+
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(USState),
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    /*
+        match 会把 coin 与里边模式依次进行比较
+        如果某匹配成功，那个模式的代码就被执行，模式后边的是一个表达式
+        如果匹配失败，就往下继续匹配
+        匹配成功代码表达式会作为整个 match 的最终结果返回
+
+        这个函数的最后一个表达式就是 match 表达式
+     */
+    match coin {
+        Coin::Penny => 1, // 这里 Coin::Penny 是一个模式, 简单表达式 => 直接写就行
+        Coin::Nickel => { // 复杂表达式需要 => 后使用 {}
+            println!("5");
+            5
+        },
+        Coin::Dime => 10,  
+        Coin::Quarter(state) => { //绑定值的模式匹配
+            println!("State quarter from {:#?}!", state);
+            25
+        },
+    }
+}
+
+fn test_match() {
+
+    let cent = value_in_cents(Coin::Quarter(USState::Alabama));
+    println!("{}", cent);
+
+    let five = Some(5);
+    let six = plus_one(five);
+    let none = plus_one(None);
+
+
+    let v = 0u8; // 定义一个 u8 类型
+    match v {
+        1 => println!("one"),
+        2 => println!("two"),
+        _ => (), // 使用 _ 通配符代替，_ 通配符必须在最后一行写。它的代码是()一个空元组，即什么也不做
+    }
+
+
+
+    let v2 = Some(3u8);
+    match v2 {
+        Some(3) => println!("three"),
+        _ => println!("if let else others"),
+    }
+
+    if let Some(3) = v2 {
+        println!("if let three");
+    } else {
+        println!("if let else others");
+    }
+
+
+}
+
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
 }
