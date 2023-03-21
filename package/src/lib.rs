@@ -1,5 +1,8 @@
 fn serve_common_order() {}
 
+
+mod big_house;
+
 mod front_of_house {
 
     pub mod hosting { // 这是一个子 module
@@ -68,7 +71,13 @@ pub fn eat_up() {
 //use crate::front_of_house::hosting;
 
 // 使用相对路径引入 hosting，因为 front_of_house 在同一级
-use front_of_house::hosting;
+//use front_of_house::hosting;
+
+/*
+    使用 use 将路径（名称）导入到作用域内，该名称在此作用域内是私有的
+    可以使用 pub use 将其声明为 public，这样外部就可以调用了
+ */
+pub use crate::front_of_house::hosting;
 
 pub fn eat_use() {
     hosting::add_to_waitlist();
