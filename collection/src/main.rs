@@ -5,6 +5,10 @@ fn main() {
 
     
     test_vec();
+
+    example();
+
+    test_string();
 }
 
 fn test_vec() {
@@ -54,6 +58,67 @@ fn test_vec() {
     }
 
     println!("v6 {:?}", v6);
+
+
+
+}
+
+enum SpreadsheetCell {
+    Int(i32),
+    Float(f64),
+    Text(String)
+}
+
+fn example() {
+
+    let v = vec![
+        SpreadsheetCell::Int(32),
+        SpreadsheetCell::Text(String::from("hello")),
+        SpreadsheetCell::Float(3.14),
+    ];
+    
+}
+
+fn test_string() {
+    let mut s = String::new();
+
+    let data = "initial contents"; // &str
+    let s1 = data.to_string();  // String
+
+    let s2 = String::from("initial contents");
+
+    let mut foo = String::from("foo");
+    let bar = String::from(" bar");
+    // push_str 的参数是 &str，所以不会获取其所有权
+    foo.push_str(&bar);
+    println!("{}, {}", foo, bar); // so 这里还能使用 bar
+
+    
+    // push
+    let mut lo = String::from("lo");
+    lo.push('l');
+    println!("{}", lo);
+
+    // + 
+    // + 前为 String 类型，+ 后需要为字符串切片（也就是字符串引用类型）
+    let mut s11 = String::from("hello");
+    let mut s22 = String::from(" world");
+    let s33 = s11 + &s22;
+    println!("{}", s33);
+    //println!("{}", s11); // + 拼接后 s11 不可以再使用了
+    println!("{}", s22);
+
+
+    let a = String::from("a");
+    let b = String::from("b");
+    let c = String::from("c");
+
+    let abc1 = a + "-" + &b + "-" + &c;
+    println!("{}", abc1);
+
+    // format 不会取得任何参数的所有权
+    let abc = format!("{}-{}-{}", a, b, c);
+    println!("{}", abc);
 
 
 
