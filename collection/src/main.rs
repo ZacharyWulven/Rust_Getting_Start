@@ -151,4 +151,63 @@ fn test_hash_map() {
     let scores2: HashMap<_, _> = team.iter().zip(init_score.iter()).collect(); 
     println!("{:#?}", scores2);
 
+
+    let field_key = String::from("Favorite color");
+    let field_value = String::from("Blue");
+
+    let mut map = HashMap::new();
+    // map.insert(field_key, field_value);
+    map.insert(&field_key, &field_value);
+
+    // 这里会报错，因为 field_key，field_value 已经 Move 发生了所有权改变
+    println!("{}, {}", field_key, field_value);
+
+
+    let mut score_map = HashMap::new();
+    score_map.insert(String::from("Blue"), 10);
+    score_map.insert(String::from("Yellow"), 50);
+
+    let team_name = String::from("Blue");
+    let score = score_map.get(&team_name);
+
+    match score {
+        Some(s) => println!("team score is {}", s),
+        None => println!("team is not exist"),
+    }
+
+    for (k, v) in &score_map {
+        println!("key={}, value={}", k, v);
+    }
+
+    update_hash();
+}
+
+fn update_hash() {
+
+    let mut score_map = HashMap::new();
+    score_map.insert(String::from("Blue"), 10);
+
+    /*
+        entry 方法判断 Yellow 这个 key 是否存在于 score_map
+        如果不存在我们就插入 50
+     */
+    let e = score_map.entry(String::from("Yellow"));
+    // e is  VacantEntry("Yellow"), VacantEntry 就是空, 即 Yellow 这个 key 不存在
+    println!("e {:#?}", e);
+    e.or_insert(50);
+    score_map.entry(String::from("Blue")).or_insert(50);
+
+
+
+    let text = "hello world wonderful world";
+    let mut map = HashMap::new();
+    for word in text.split_whitespace() {
+        // 第一个 word 因为 key 不存在，会插入值为 0
+        // 第二次 word key 已经存在，entry 直接返回 V 也就是 0
+        let count = map.entry(word).or_insert(0);
+        *count += 1;
+    }
+    println!("{:#?}", map);
+
+
 }
