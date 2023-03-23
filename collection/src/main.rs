@@ -1,14 +1,15 @@
-use collection::Vector;
+use std::collections::HashMap;
 
 fn main() {
     println!("Hello, world!");
 
-    
     test_vec();
 
     example();
 
     test_string();
+
+    test_hash_map();
 }
 
 fn test_vec() {
@@ -113,13 +114,41 @@ fn test_string() {
     let b = String::from("b");
     let c = String::from("c");
 
-    let abc1 = a + "-" + &b + "-" + &c;
-    println!("{}", abc1);
+    // let abc1 = a + "-" + &b + "-" + &c;
+    // println!("{}", abc1);
 
     // format 不会取得任何参数的所有权
     let abc = format!("{}-{}-{}", a, b, c);
     println!("{}", abc);
 
+    let hello = "Здравствуйте";
 
+    // 一个字母（Unicode 标量值）占
+
+    println!("Bytes");
+    for byte in hello.bytes() { // 以字节形式
+        println!("{}", byte);
+    }
+
+    for char in hello.chars() { // 以标量值形式
+        println!("{}", char);
+    }
+
+    let sStr = &hello[0..4];
+    println!("{}", sStr);
+
+
+}
+
+fn test_hash_map() {
+
+    let mut scores = HashMap::new();
+    scores.insert("tom", 40);
+    println!("{:#?}", scores);
+
+    let team = vec![String::from("Blue"), String::from("Yellow")];
+    let init_score = vec![10, 50];
+    let scores2: HashMap<_, _> = team.iter().zip(init_score.iter()).collect(); 
+    println!("{:#?}", scores2);
 
 }
