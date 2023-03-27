@@ -4,6 +4,9 @@ use std::io::ErrorKind;
 use std::io;
 use std::io::Read;
 
+use std::net::IpAddr;
+
+
 // Box<dyn Error> 是一个 trait 对象
 fn main() -> Result<(), Box<dyn Error>> {
     println!("Hello, world!");
@@ -48,6 +51,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     //let f = File::open("hello.txt").expect("文件不存在");
 
     flood();
+
+    test();
     let f = File::open("hello.txt")?;
     Ok(())
 }
@@ -101,4 +106,39 @@ fn read_username_from_file_chain() -> Result<String, io::Error> {
     let mut s = String::new();
     File::open("hello.txt")?.read_to_string(&mut s)?;
     Ok(s)
+}
+
+fn test() {
+    let home: IpAddr = "127.0.0.1".parse().unwrap();
+    println!("{}", home);
+
+}
+
+pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("Guess value need be between 1 and 100, got {}", value);
+        }
+        Guess { value }
+    }
+
+    pub fn value(&self) -> i32 {
+        self.value
+    }
+}
+
+fn test_guess() {
+    loop {
+        let guess = "32";
+        let guess: i32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
+        let guess = Guess::new(guess);
+    }
 }
