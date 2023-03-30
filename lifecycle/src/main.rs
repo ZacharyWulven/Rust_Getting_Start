@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 fn main() {
     println!("Hello, world!");
 
@@ -33,6 +35,8 @@ fn main() {
 
 
     test_struct();
+
+    last();
 }
 
 // 这个方法签名报错，因为没有说明 x 和 y 的生命周期
@@ -89,5 +93,22 @@ fn test_struct() {
     let first = novel.split(".").next().expect("could not find a .");
     // 因为 first 生命周期 比 i 长，所以这样编译可通过
     let i = Expert { part: first };
+
+    let s: &'static str = "I'm a static value";
 }
 
+fn longest_with_an_announcement<'a, T>
+(x: &'a str, y: &'a str, ann: T) -> &'a str 
+where T: Display {
+    println!("{}", ann);
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+
+fn last() {
+
+
+}
