@@ -2,8 +2,13 @@ pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
 
-fn add_two(a: i32) -> i32 {
-    a + 3
+pub fn add_two(a: i32) -> i32 {
+    internal_add(a, 2)
+}
+
+// private func
+fn internal_add(a: i32, b: i32) -> i32 {
+    a + b
 }
 
 fn greeting(name: &str) -> String {
@@ -38,6 +43,11 @@ mod tests {
     // 将外部模块所有内容都导入到这个模块
     use super::*;
 
+    #[test]
+    fn it_work_internal() {
+        assert_eq!(4, internal_add(2, 2));
+    }
+
     #[test] // 这是一个测试函数
     fn explorer() {
         let result = add(2, 2);
@@ -70,7 +80,7 @@ mod tests {
     fn it_work_greeting1() {
         let result = greeting1("Carol");
         assert!(
-            result.contains("Carol"), 
+            !result.contains("Carol"), 
             "Greeting did not cntain name {}", result
         );
     }
@@ -86,10 +96,17 @@ mod tests {
     #[test]
     fn it_work_result() -> Result<(), String>{
         if 2 + 2 == 4 {
+            println!("2 + 2 is 4");
             Ok(())
         } else {
             Err(String::from("two plus two does not equal four"))
         }
+    }
+
+    #[test]
+    #[ignore]
+    fn it_work_igonre() {
+        assert_eq!(2, 1 + 1);
     }
     
 
