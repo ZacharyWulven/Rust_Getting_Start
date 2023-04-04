@@ -8,6 +8,7 @@ use std::env;
 
 // 导入处理文件相关事务
 use std::fs;
+use std::process;
 
 fn main() {
 
@@ -23,14 +24,50 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     println!("{:?}", args);
 
-    let query = &args[1];
-    let filename = &args[2];
-    println!("query = {:?}", query);
-    println!("filename = {:?}", filename);
+    // let query = &args[1];
+    // let filename = &args[2];
+
+    /*
+        如果 new 返回的是 Ok，unwrap_or_else 会将 Ok 的值取出并返回
+        如果 new 返回的是 Err，就会调用一个闭包(匿名函数)
+     */
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        // |err| 是闭包的参数
+        println!("Problem parsing arguments: {}", err);
+        /*
+            调用 exit，程序会立即终止
+            参数 1 即状态码
+            可以使用 cargo run 试试
+         */
+        process::exit(1);
+    });
+
+    println!("query = {:?}", config.query);
+    println!("filename = {:?}", config.filename);
 
     // 2. 读取文件
-    let contents = fs::read_to_string(filename).expect("read file failed");
+    let contents = fs::read_to_string(config.filename).expect("read file failed");
     println!("file contents:\n{}", contents);
 
 
 }
+
+struct Config {
+    query: String,
+    filename: String,
+}
+
+impl Config {
+    // 参数为 vec 的切片
+    fn new(args: &[String]) -> Result<Config, &'static str>  {
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+        // 使用 clone() 将 &str 转为 String
+        let query = args[1].clone();
+        let filename = args[2].clone();
+        Ok(Config { query , filename })
+    }
+}
+
+
