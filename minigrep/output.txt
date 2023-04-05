@@ -1,0 +1,3 @@
+case_insensitive: true
+line: I'm nobody! Who are you?
+line: Are you nobody, too?

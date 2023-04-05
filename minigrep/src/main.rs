@@ -3,12 +3,17 @@
     args 返回一个迭代器，迭代器返回一系列值，调用 collect 可将其转化为一个集合
     std::env::args()
  */
-use std::env;
+// use std::env;
 
 
-// 导入处理文件相关事务
-use std::fs;
-use std::process;
+// // 导入处理文件相关事务
+// use std::fs;
+// use std::process;
+// use std:: error::Error;
+
+use  std::{ env, fs, process, error::Error };
+
+use minigrep::Config;
 
 fn main() {
 
@@ -22,7 +27,7 @@ fn main() {
         env::args_os() 返回 OsString
      */
     let args: Vec<String> = env::args().collect();
-    println!("{:?}", args);
+    eprintln!("{:?}", args);
 
     // let query = &args[1];
     // let filename = &args[2];
@@ -30,10 +35,11 @@ fn main() {
     /*
         如果 new 返回的是 Ok，unwrap_or_else 会将 Ok 的值取出并返回
         如果 new 返回的是 Err，就会调用一个闭包(匿名函数)
+        unwrap 解包，提取值
      */
     let config = Config::new(&args).unwrap_or_else(|err| {
         // |err| 是闭包的参数
-        println!("Problem parsing arguments: {}", err);
+        eprintln!("Problem parsing arguments: {}", err);
         /*
             调用 exit，程序会立即终止
             参数 1 即状态码
@@ -42,32 +48,13 @@ fn main() {
         process::exit(1);
     });
 
-    println!("query = {:?}", config.query);
-    println!("filename = {:?}", config.filename);
-
-    // 2. 读取文件
-    let contents = fs::read_to_string(config.filename).expect("read file failed");
-    println!("file contents:\n{}", contents);
-
-
-}
-
-struct Config {
-    query: String,
-    filename: String,
-}
-
-impl Config {
-    // 参数为 vec 的切片
-    fn new(args: &[String]) -> Result<Config, &'static str>  {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
-        // 使用 clone() 将 &str 转为 String
-        let query = args[1].clone();
-        let filename = args[2].clone();
-        Ok(Config { query , filename })
+    /*
+        因为 run 函数 Ok 返回空，所以没有必要提取值
+        这里我们只需要处理错误就行了
+     */
+    if let Err(e) = minigrep::run(config) {
+        eprintln!("Application error: {}", e);
+        process::exit(1);
     }
+
 }
-
-
