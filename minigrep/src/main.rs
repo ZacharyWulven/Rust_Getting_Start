@@ -26,7 +26,9 @@ fn main() {
         如果想处理非法的 unicode 字符，那么可以用 env::args_os()
         env::args_os() 返回 OsString
      */
-    let args: Vec<String> = env::args().collect();
+    //let args: Vec<String> = env::args().collect();
+    let args = env::args();
+
     eprintln!("{:?}", args);
 
     // let query = &args[1];
@@ -37,7 +39,7 @@ fn main() {
         如果 new 返回的是 Err，就会调用一个闭包(匿名函数)
         unwrap 解包，提取值
      */
-    let config = Config::new(&args).unwrap_or_else(|err| {
+    let config = Config::new(args).unwrap_or_else(|err| {
         // |err| 是闭包的参数
         eprintln!("Problem parsing arguments: {}", err);
         /*

@@ -22,13 +22,27 @@ pub struct Config {
 
 impl Config {
     // 参数为 vec 的切片
-    pub fn new(args: &[String]) -> Result<Config, &'static str>  {
+    //pub fn new(args: &[String]) -> Result<Config, &'static str>  {
+    // 加 mut 因为，迭代器会修改自身的状态
+    pub fn new(mut args: std::env::Args) -> Result<Config, &'static str>  {
+
         if args.len() < 3 {
             return Err("not enough arguments");
         }
+
+        // 优化点
+        // 跳过第一个元素，因为第一个元素没有用
+        args.next();
         // 使用 clone() 将 &str 转为 String
-        let query = args[1].clone();
-        let filename = args[2].clone();
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file string"),
+        };
+
         // 
         // 使用 std::env 模块
         // 只要 CASE_INSENSITIVE 变量出现 就是不区分大小写的 
@@ -71,15 +85,19 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     返回值是从 contents 里取的，所以它俩要有相同的生命周期
  */
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
+    //let mut results = Vec::new();
 
     // lines() 返回一个迭代器
-   for line in contents.lines() {
-       if line.contains(query) {
-            results.push(line);
-       }
-   }
-   results
+//    for line in contents.lines() {
+//        if line.contains(query) {
+//             results.push(line);
+//        }
+//    }
+//    results
+
+    contents.lines()
+            .filter(|line| line.contains(query))
+            .collect()
 }
 
 pub fn search_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
