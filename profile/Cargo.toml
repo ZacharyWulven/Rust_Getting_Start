@@ -1,0 +1,17 @@
+[package]
+name = "profile"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+
+# opt-level 用于 Rust 编译时对代码执行那种程度的优化，范围是 0~3
+
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+opt-level = 3
