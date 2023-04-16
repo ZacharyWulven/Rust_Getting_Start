@@ -1,4 +1,16 @@
 use crate::List:: {Cons, Nil};
+
+// 一个 tuple struct，即一个有名称的元组
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+
+
+
 fn main() {
     println!("Hello, world!");
     /*
@@ -15,6 +27,14 @@ fn main() {
              Box::new(Cons(3,
                  Box::new(Nil))))));
     println!("{:#?}", list);
+
+    let x = 5;
+    //let y = &x;
+    let y = Box::new(x);
+    assert_eq!(5, x);
+    assert_eq!(5, *y);
+
+    my_box_t();
 }
 
 #[derive(Debug)]
@@ -28,4 +48,14 @@ enum Message {
     Move {x: i32, y: i32}, // 需要两个 i32 空间
     Write(String),
     ChangeColor(i32, i32, i32),
+}
+
+fn my_box_t() {
+    let x = 5;
+    //let y = &x;
+    let y = MyBox::new(x);
+    assert_eq!(5, x);
+    assert_eq!(5, *y); // 这里报错，因为没实现 Deref trait
+
+
 }
