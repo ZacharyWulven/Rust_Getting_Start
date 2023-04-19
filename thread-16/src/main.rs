@@ -4,11 +4,15 @@ use std::sync::mpsc;
 
 
 fn main() {
-    join();
+    //join();
 
-    moved();
+    //moved();
 
-    mpsc();
+    //mpsc();
+
+    //wait();
+
+    clone_tx();
 }
 
 fn join() {
@@ -53,6 +57,8 @@ fn mpsc() {
     thread::spawn(move || { // 加 move，获得 tx 的所有权
         let val = String::from("hi");
         tx.send(val).unwrap();
+        // 这里报错因为 val 已经 move 了
+        //println!("val is {}", val);
     });
 
     /*
@@ -61,4 +67,73 @@ fn mpsc() {
      */
     let received = rx.recv().unwrap();
     println!("Got: {}", received);
+}
+
+fn wait() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_millis(200));
+        }
+    });
+
+    /*
+        把接收端当成迭代器，这样就不需要调用 recv 函数了
+        每收到一个值就将其打印
+        当 Channel 关闭时就会退出这个循环
+        这也是一种常用的用法
+     */
+    for received in rx {
+        println!("Got: {}", received);
+    }
+}
+
+fn clone_tx() {
+    let (tx, rx) = mpsc::channel();
+
+    // 这里通过 clone 创建一个新的发送端 tx1
+    let tx1 = mpsc::Sender::clone(&tx);
+
+    // 用 tx1 进行 send
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("1: hi"),
+            String::from("1: from"),
+            String::from("1: the"),
+            String::from("1: thread"),
+        ];
+
+        for val in vals {
+            tx1.send(val).unwrap();
+            thread::sleep(Duration::from_millis(200));
+        }
+    });
+
+    // 用 tx 进行 send
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_millis(200));
+        }
+    });
+    
+    for received in rx {
+        println!("Got: {}", received);
+    }
 }
