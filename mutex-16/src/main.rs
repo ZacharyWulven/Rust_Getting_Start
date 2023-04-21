@@ -30,9 +30,8 @@ fn test_mu() {
     } // MutexGuard，它实现了 Drop trait，所以这里会释放，也就解锁了
     println!("m = {:?}", m);
 }
-
+/*
 fn mutil_mu() {
-    /*
     let counter = Mutex::new(0);
 
     let mut handles = vec![];
@@ -50,9 +49,8 @@ fn mutil_mu() {
         handle.join().unwrap();
     }
     println!("Result: {}", *counter.lock().unwrap());
-    */
 }
-
+*/
 
 fn mutil_mu_arc() {
     let counter: Arc<Mutex<i32>> = Arc::new(Mutex::new(0));
