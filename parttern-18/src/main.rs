@@ -24,7 +24,74 @@ fn main() {
 
     //test_prefix();
 
-    test_dot();
+    //test_dot();
+
+    //test_guard();
+
+    test_at();
+}
+
+enum Msg {
+    Hello { id: i32},
+}
+
+fn test_at() {
+    let msg = Msg::Hello { id: 5 };
+
+    match msg {
+        /*
+            要 id 的值在 3~7
+            使用 @ 将值存到 id_var 变量中
+         */
+        Msg::Hello { id: id_var @ 3..= 7, } => {
+            println!("Found an id in range: {}", id_var)
+        }
+        Msg::Hello { id: 10..=12 } => {
+            println!("Found an id in another range")
+        }
+        Msg::Hello { id } => {
+            println!("Found some other id: {}", id)
+        }
+    }
+
+}
+
+fn test_guard() {
+    let num = Some(4);
+    match num {
+        /*
+            if x < 5 就是 match 的守卫，需要 x 小于 5
+            
+         */
+        Some(x) if x < 5 => println!("less than five: {}", x),
+        Some(x) => println!("x >= 5, is {}", x),
+        None => (),
+    }
+
+
+    let x = Some(5);
+    let y = 10;
+    match x {
+        Some(50) => println!("Got 50"),
+        /*
+            Note 守卫不是模式，所以守卫不会引入新的变量
+            而 n 这个变量是在 Some() 模式匹配时引入的
+         */
+        Some(n) if n == y => println!("Matched, n = {:?}", n),
+        _ => println!("Default case, x = {:?}", x),
+    }
+    println!("at the end: x = {:?}, y = {:?}", x, y);
+
+
+    // 多重模式使用 match 守卫
+    let m = 4;
+    let n = false;
+
+    match m {
+        // 如果 m 是 4 或 5 或 6 并且 n 是 true 的话就打印 yes
+        4 | 5 | 6 if n => println!("yes"),
+        _ => println!("no"),
+    }
 }
 
 struct Position {
@@ -48,13 +115,13 @@ fn test_dot() {
         }
     }
 
-    match numbers {
-        // 这样会报错，因为不知道你要中间那个元素，会发生歧义
-        // 使用 .. 时不能发生歧义
-        (.., second, ..) => {
-            println!("Some number: {}", second);
-        }
-    }
+    // match numbers {
+    //     // 这样会报错，因为不知道你要中间那个元素，会发生歧义
+    //     // 使用 .. 时不能发生歧义
+    //     (.., second, ..) => {
+    //         println!("Some number: {}", second);
+    //     }
+    // }
 
 
 }
