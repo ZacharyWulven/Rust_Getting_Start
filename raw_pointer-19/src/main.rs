@@ -1,4 +1,13 @@
 fn main() {
+
+    //test_raw_pointer();
+
+    test_unsafe();
+
+}
+
+
+fn test_raw_pointer() {
     let mut num = 5;
 
     /*
@@ -33,6 +42,20 @@ fn main() {
     // 对原始指针解引用
     unsafe {
         println!("r: {}", *r);
+    }
+
+
+}
+
+unsafe fn dangerous() {
+    println!("I am dangerous !");
+}
+
+fn test_unsafe() {
+
+    // 调用 Unsafe 函数需要再 Unsafe 块里
+    unsafe {
+        dangerous();
     }
 
 }
