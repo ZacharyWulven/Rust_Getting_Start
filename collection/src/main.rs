@@ -61,6 +61,12 @@ fn test_vec() {
     println!("v6 {:?}", v6);
 
 
+    let v7 = vec![1, 2, 3, 4];
+    for i in &v7 {
+        println!("v7 item is {}", i)
+    }
+
+
 
 }
 
@@ -92,7 +98,7 @@ fn test_string() {
     let bar = String::from(" bar");
     // push_str 的参数是 &str，所以不会获取其所有权
     foo.push_str(&bar);
-    println!("{}, {}", foo, bar); // so 这里还能使用 bar
+    println!("foo = {}, {}", foo, bar); // so 这里还能使用 bar
 
     
     // push
@@ -118,7 +124,7 @@ fn test_string() {
     // println!("{}", abc1);
 
     // format 不会取得任何参数的所有权
-    let abc = format!("{}-{}-{}", a, b, c);
+    let abc: String = format!("{}-{}-{}", a, b, c);
     println!("{}", abc);
 
     let hello = "Здравствуйте";
@@ -127,29 +133,31 @@ fn test_string() {
 
     println!("Bytes");
     for byte in hello.bytes() { // 以字节形式
-        println!("{}", byte);
+        println!("byte {}", byte);  // 208 ...
     }
 
-    for char in hello.chars() { // 以标量值形式
-        println!("{}", char);
+    for char in hello.chars() { // 以 Unicode 标量值形式
+        println!("char {}", char);  // З ...
     }
 
-    let sStr = &hello[0..4];
+    let sStr = &hello[0..4]; 
     println!("{}", sStr);
 
+    // let ss = &hello[1]
+    // print!(ss)
 
 }
 
 fn test_hash_map() {
 
-    let mut scores = HashMap::new();
+    let mut scores: HashMap<&str, i32> = HashMap::new();
     scores.insert("tom", 40);
     println!("{:#?}", scores);
 
     let team = vec![String::from("Blue"), String::from("Yellow")];
     let init_score = vec![10, 50];
     let scores2: HashMap<_, _> = team.iter().zip(init_score.iter()).collect(); 
-    println!("{:#?}", scores2);
+    println!("{:?}", scores2);
 
 
     let field_key = String::from("Favorite color");

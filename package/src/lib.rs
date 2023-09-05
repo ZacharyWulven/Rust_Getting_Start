@@ -73,6 +73,8 @@ pub fn eat_up() {
 // 使用相对路径引入 hosting，因为 front_of_house 在同一级
 //use front_of_house::hosting;
 
+use big_house::host::host;
+
 /*
     使用 use 将路径（名称）导入到作用域内，该名称在此作用域内是私有的
     可以使用 pub use 将其声明为 public，这样外部就可以调用了
@@ -83,4 +85,8 @@ pub fn eat_use() {
     hosting::add_to_waitlist();
     hosting::add_to_waitlist();
     // hosting::seat_at_table(); 报错 因为这个方法是私有的
+}
+
+pub fn big_house() {
+    host::check_host();
 }
