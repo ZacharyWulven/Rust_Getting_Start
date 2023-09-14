@@ -65,9 +65,11 @@ mod tests {
         assert!(a);
     }
 
+    // 11.2
     #[test]
     fn it_work_two() {
-        //assert_eq!(4, add_two(2));
+        assert_eq!(4, add_two(2));
+       // assert_eq!(4, 4);
     }
 
     #[test]
@@ -76,6 +78,7 @@ mod tests {
         assert!(result.contains("Carol"));
     }
 
+    // 11.3
     #[test]
     fn it_work_greeting1() {
         let result = greeting1("Carol");
@@ -85,6 +88,7 @@ mod tests {
         );
     }
 
+    // 11.4
     #[test]
     //#[should_panic]
     #[should_panic(expected = "Guess value must be less than or equal to 100")]

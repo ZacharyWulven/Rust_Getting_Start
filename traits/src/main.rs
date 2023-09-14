@@ -21,6 +21,10 @@ fn main() {
     let words = vec![String::from("hello"), String::from("world")];
     let max_word = traits::largest(&words);
     println!("max_word: {}", max_word);
+
+    let max_word = traits::largest_one(&words);
+    println!("max_word one: {}", max_word);
+
 }
 
 struct Pair<T> {

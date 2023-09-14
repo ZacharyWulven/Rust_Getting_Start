@@ -124,3 +124,17 @@ pub fn largest<T: PartialOrd + Clone>(list: &[T]) -> T {
 }
 
 
+// std::cmp::PartialOrd 在 prelude 模块里，所以不需要导入
+pub fn largest_one<T: PartialOrd>(list: &[T]) -> &T {
+    // 这里报错需要加上 Copy trait，但字符串无法使用所以可以用 Clone trait
+    let mut largest = &list[0]; 
+    for item in list.iter() {
+        // 只要实现了 std::cmp::PartialOrd 这个 trait，那么 T 才能使用 > 进行比较
+        if item > &largest { 
+            largest = item;
+        }
+    }
+    largest
+}
+
+
