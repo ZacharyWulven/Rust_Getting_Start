@@ -6,3 +6,7 @@ use adder;
 fn it_another_adds_two() {
     assert_eq!(4, adder::add_two(2));
 }
+
+fn it_really_adds_two() {
+    assert_eq!(4, adder::add_two(2));
+}
