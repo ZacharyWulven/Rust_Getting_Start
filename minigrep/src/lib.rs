@@ -122,6 +122,7 @@ mod tests {
     #[test]
     fn case_sensitive() {
         let query = "duct";
+        // \ 表示换行输入
         let contents = "\
 Rust:
 safe, fast, productive.
