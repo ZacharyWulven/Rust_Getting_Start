@@ -8,12 +8,12 @@ fn shoe_in_my_size(shoes: Vec<Shoe>, size: u32) -> Vec<Shoe> {
     shoes.into_iter().filter(|shoe| shoe.size == size).collect()
 }
 
-struct Counter {
+pub struct Counter {
     count: u32,
 } 
 
 impl Counter {
-    fn new() -> Counter {
+    pub fn new() -> Counter {
         Counter { count: 0 }
     }
 }
@@ -45,7 +45,7 @@ mod tests {
         let sum: u32 = Counter::new()
             .zip(Counter::new().skip(1))
             .map(|(a, b)| a * b)
-            .filter(|x| x % 3 == 0)
+            // .filter(|x| x % 3 == 0)
             .sum();
         assert_eq!(18, sum);
     }

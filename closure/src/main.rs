@@ -111,7 +111,19 @@ fn capture1() {
         将 x 的所有权移动到了闭包里
      */
     let equal_to_x = move |z| z == x;
-    println!("can not use x here, because x did move: {:?}", x);
+    // println!("can not use x here, because x did move: {:?}", x);
     let y = vec![1, 2, 3];
     assert!(equal_to_x(y));
+}
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn call_diff_value() {
+        let mut c = super::Cacher::new(|x| x);
+        let v1 = c.value(1);
+        let v2 = c.value(2);
+        assert_eq!(v2, 2);
+    }
 }

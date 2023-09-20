@@ -1,5 +1,13 @@
+use iter::Counter;
+
 fn main() {
     one();
+
+    let c = Counter::new();
+
+    for i in c.into_iter() {
+        println!("i={}", i)
+    }
 
 }
 
