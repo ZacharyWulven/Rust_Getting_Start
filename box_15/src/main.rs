@@ -1,4 +1,5 @@
 use crate::List:: {Cons, Nil};
+use std::ops::Deref;
 
 // 一个 tuple struct，即一个有名称的元组
 struct MyBox<T>(T);
@@ -9,7 +10,14 @@ impl<T> MyBox<T> {
     }
 }
 
+impl<T> Deref for MyBox<T> {
+    // 定义关联类型
+    type Target = T;
 
+    fn deref(&self) -> &T {
+        &self.0
+    }
+}
 
 fn main() {
     println!("Hello, world!");
@@ -55,7 +63,7 @@ fn my_box_t() {
     //let y = &x;
     let y = MyBox::new(x);
     assert_eq!(5, x);
-    assert_eq!(5, *y); // 这里报错，因为没实现 Deref trait
+    assert_eq!(5, *y); // 如果没有实现Deref， 这里报错
 
 
 }

@@ -8,3 +8,17 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+
+
+# opt-level 用于 Rust 编译时对代码执行那种程度的优化，值范围是 0~3
+# 数值越高优化程度越高，优化程度越高，代码编译的时间越长
+
+# 覆盖 dev profile 的 opt-level 值
+[profile.dev] 
+opt-level = 0
+
+
+# 覆盖 release profile 的 opt-level 值
+[profile.release]
+opt-level = 3

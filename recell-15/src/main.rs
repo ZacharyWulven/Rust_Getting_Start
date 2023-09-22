@@ -15,7 +15,7 @@ fn main() {
     let b = Cons(Rc::new(RefCell::new(6)), Rc::clone(&a));
     let c = Cons(Rc::new(RefCell::new(10)), Rc::clone(&a));
 
-    // *value is Rc<RefCell<i32>>
+    // *value type is Rc<RefCell<i32>>
     *value.borrow_mut() += 10;
 
     println!("a after = {:?}", a);
