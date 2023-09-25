@@ -4,15 +4,20 @@ use std::sync::mpsc;
 
 
 fn main() {
-    //join();
-
-    //moved();
 
     //mpsc();
 
     //wait();
 
     clone_tx();
+
+
+    //join();
+
+    //moved();
+
+
+
 }
 
 fn join() {
@@ -54,8 +59,11 @@ fn mpsc() {
     // tx 是 sender，rx 是 receiver
     let (tx, rx) = mpsc::channel();
 
+    // 创建一个线程，并使用 move 让线程有 tx 的所有权
+    // 新的线程必须拥有发送端的所有权才能往通道里发消息
     thread::spawn(move || { // 加 move，获得 tx 的所有权
         let val = String::from("hi");
+        // 发送消息，如果接收到已经被丢弃，这时会产生一个错误，这里用 unwrap 简单处理
         tx.send(val).unwrap();
         // 这里报错因为 val 已经 move 了
         //println!("val is {}", val);
