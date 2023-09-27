@@ -21,8 +21,11 @@ fn main() {
         incoming 产生一个 TCP Stream 的流序列的迭代器，
         而单个流就表示客户端和服务器之间打开了一个连接
         而 for 循环就会依次处理每一个连接，并生成一系列的流进行处理
+
+        take(2) 只能处理 2 次请求，第三次就停止了
      */
-    for stream in listener.incoming() {
+    
+    for stream in listener.incoming().take(2) {
         let stream = stream.unwrap();
 
         pool.execute(|| {
@@ -37,6 +40,8 @@ fn main() {
         //     handle_connection(stream);
         // });
     }
+
+    println!("Shutting down!");
 }
 /*
     参数为可变的
