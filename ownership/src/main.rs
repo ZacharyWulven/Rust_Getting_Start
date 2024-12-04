@@ -1,10 +1,31 @@
+use std::mem::forget;
+
 fn main() {
 
     //test_ownership();
 
-    test_reference();
+    // test_reference();
 
-    mut_refer();
+    // mut_refer();
+
+    bu_chong()
+}
+
+fn bu_chong() {
+    let m1 = String::from("hello");
+    let m2 = String::from("world");
+    println!("m1:{}", m1);
+    println!("m1 的地址:{:p}", &m1);
+    greet(&m1, &m2);
+    let s = format!("{} {}", m1, m2);
+}
+
+fn greet(g1: &String, g2: &String) {
+    println!("g1:{}, g2:{}!", g1, g2);
+    let address_in_g1 = g1 as *const String;
+    println!("g1 value:{g1}");
+    println!("g1 存的内容:{:p}", address_in_g1);
+    println!("g1的地址:{:p}", &g1);
 }
 
 fn test_ownership() {
