@@ -8,7 +8,34 @@ fn main() {
 
     // mut_refer();
 
-    bu_chong()
+    // bu_chong()
+
+    // move_sample()
+
+    // box_sample()
+}
+
+fn sa() {
+    let x = 0;
+    let mut x_ref = &x;
+    let y = 1;
+
+    *x_ref += 1; // err: 因为其借用的是不可变的
+    x_ref = &y;  // Ok: 因为 x_ref 是可变的可以指向其他 &i32 地址
+}
+
+fn box_sample() {
+
+    let x = Box::new(5);
+    let y = x;
+    // println!("{}", x); // 已经 move，不能让多个 `Box` 同时拥有一块数据
+    println!("{}", y);
+
+    let r1 = &y;  // 多个引用可以同时指向同一个 Box
+    let r2 = &y;
+    println!("r1: {r1}, r2: {r2}");
+
+    let r3 = &*y;
 }
 
 fn bu_chong() {
@@ -18,6 +45,14 @@ fn bu_chong() {
     println!("m1 的地址:{:p}", &m1);
     greet(&m1, &m2);
     let s = format!("{} {}", m1, m2);
+}
+
+fn move_sample() {
+    // compile error sample
+    let mut v: Vec<i32> = vec![1, 2, 3];
+    let num: &i32 = &v[2];
+    v.push(4);
+    // println!("num is {:?}", *num);
 }
 
 fn greet(g1: &String, g2: &String) {
