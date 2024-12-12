@@ -20,7 +20,7 @@ fn sa() {
     let mut x_ref = &x;
     let y = 1;
 
-    *x_ref += 1; // err: 因为其借用的是不可变的
+    // *x_ref += 1; // err: 因为其借用的是不可变的
     x_ref = &y;  // Ok: 因为 x_ref 是可变的可以指向其他 &i32 地址
 }
 
@@ -52,7 +52,7 @@ fn move_sample() {
     let mut v: Vec<i32> = vec![1, 2, 3];
     let num: &i32 = &v[2];
     v.push(4);
-    // println!("num is {:?}", *num);
+    println!("num is {:?}", *num);
 }
 
 fn greet(g1: &String, g2: &String) {
