@@ -13,6 +13,15 @@ fn main() {
     // move_sample()
 
     // box_sample()
+
+    down()
+}
+
+fn down() {
+    let mut v: Vec<i32> = vec![1, 2, 3];
+    let num: &mut i32 = &mut v[2];
+    let num2 = &*num;
+    println!("*num is {}, *num2 is {}", *num, *num2);
 }
 
 fn sa() {
@@ -51,7 +60,7 @@ fn move_sample() {
     // compile error sample
     let mut v: Vec<i32> = vec![1, 2, 3];
     let num: &i32 = &v[2];
-    v.push(4);
+    // v.push(4);
     println!("num is {:?}", *num);
 }
 
