@@ -1,5 +1,8 @@
 use std::mem::forget;
 
+use std::rc::Rc;
+
+
 fn main() {
 
     //test_ownership();
@@ -14,8 +17,41 @@ fn main() {
 
     // box_sample()
 
-    down()
+    // down()
 }
+
+
+// 修复所有权常见的错误 Begin
+// 1 Fixing an Unsafe Program: Returning a Reference to the Stack
+
+// fn return_a_string() -> &String {
+//     let s = String::from("hello");
+//     &s
+// }
+
+
+// 方案二
+// &'static 会随程序运行一直存在，活的最长，除非程序嘎了
+// fn return_a_string() -> &'static str {
+//     "Hello, world!"
+// }
+
+// 方案三
+// fn return_a_string() -> Rc<String> {
+//     let s = Rc::new(String::from("hello"));
+//     Rc::clone(&s)
+// }
+
+// 方案四
+fn return_a_string(output: &mut String) {
+    // 将整个字符串替换为 "Hello World"
+    output.replace_range(.., "Hello World");
+}
+
+
+
+// 修复所有权常见的错误 End
+
 
 fn down() {
     let mut v: Vec<i32> = vec![1, 2, 3];
