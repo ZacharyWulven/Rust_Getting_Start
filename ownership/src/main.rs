@@ -18,12 +18,21 @@ fn main() {
     // box_sample()
 
     // down()
+
+    let name = vec![String::from("Ferris")];
+    let first = &name[0];
+    let full = stringify_name_with_title(&name);
+    println!("{}", first);
+    println!("{}", full);
+    println!("{:?}", name);
+
 }
 
 
 // 修复所有权常见的错误 Begin
 // 1 Fixing an Unsafe Program: Returning a Reference to the Stack
 
+// 方案一
 // fn return_a_string() -> &String {
 //     let s = String::from("hello");
 //     &s
@@ -46,6 +55,31 @@ fn main() {
 fn return_a_string(output: &mut String) {
     // 将整个字符串替换为 "Hello World"
     output.replace_range(.., "Hello World");
+}
+
+// 2 Fixing an Unsafe Program: Not Enough Permissions
+
+// Question
+// fn stringify_name_with_title(name: &Vec<String>) -> String {
+//     name.push(String::from("Esq."));  // 没有写的权限，所以报错
+//     let full = name.join(" ");
+//     full
+// }
+
+// 方案一
+// fn stringify_name_with_title(name: &Vec<String>) -> String {
+//     let mut name_clone = name.clone();
+//     name_clone.push(String::from("Esq."));  // 没有写的权限，所以报错
+//     let full = name_clone.join(" ");
+//     full
+// }
+
+
+// 方案二
+fn stringify_name_with_title(name: &Vec<String>) -> String {
+    let mut full = name.join(" "); // join 返回一个新 String
+    full.push_str("Esq.");
+    full
 }
 
 
