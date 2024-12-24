@@ -136,6 +136,7 @@ fn add_big_strings(dst: &mut Vec<String>, src: &[String]) {
         }
     }
 
+
 }
 
 // 4 Fixing an Unsafe Program: Copying vs. Moving Out of a Collection
@@ -165,17 +166,63 @@ fn add_big_strings(dst: &mut Vec<String>, src: &[String]) {
 
  */
 
+// fn main() {
+//     // Copy Trait
+//     let v: Vec<i32> = vec![0, 1, 2];
+//     let n_ref: &i32= &v[0];
+//     let n: i32 = *n_ref; // 由于是 i32 类型，这里会发生 Copy
+//
+//     // Move
+//     let v: Vec<String> = vec![String::from("Hello world")];
+//     let n_ref: String= v[0].clone();
+//
+// }
+
+// 5 Fixing an Unsafe Program: Mutating Different Tuple Fields（修改 Tuple 不同字段）
+
+// 没有问题的 case
+
+// fn main() {
+//     let mut name = (String::from("Ferris"), String::from("Rustacean"));
+//     // 下边这句走完 name 对第一个元素就不具备写权限了，同时 name 失去了对整个 tuple 的写权限
+//     let first = &name.0;
+//     name.1.push_str(", Esq."); // 但 name.1 依然有写权限
+//     println!("{first}, {}", name.1);
+// }
+
+// 有问题的 case
+// fn main() {
+//     let mut name = (String::from("Ferris"), String::from("Rustacean"));
+//     let first = get_first(&name);
+//     // 报错：rust 只看方法签名，get_first 函数返回 &String，所以 rust 认为 name.0 和 name.1 都被不可变借用
+//     name.1.push_str(", Esq.");
+//     println!("{first}, {}", name.1);
+// }
+//
+// //
+// fn get_first(name: &(String, String)) -> &String {
+//     &name.0
+// }
+
+
+
+// 6 Fixing an Unsafe Program: Mutating Different Array Elements
 fn main() {
-    // Copy Trait
-    let v: Vec<i32> = vec![0, 1, 2];
-    let n_ref: &i32= &v[0];
-    let n: i32 = *n_ref; // 由于是 i32 类型，这里会发生 Copy
+    let mut a = [0, 1, 2, 3];
 
-    // Move
-    let v: Vec<String> = vec![String::from("Hello world")];
-    let n_ref: String= v[0].clone();
+    let y = a[2];
 
+    let x = &mut a[1];  // 可变借用，这行走完，a 失去所有权限，只有 x 有权限
+
+    // let y = &a[2];  // 不可变借用，由于 a 没有任何权限了，所以这里也不可能给予读权限，所以报错
+    *x += y;             // 可变借用持续到这行结束，所以在此之前不能有不可变借用
+
+    println!("{a:?}");
 }
+
+
+
+
 
 
 // 修复所有权常见的错误 End
