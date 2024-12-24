@@ -207,18 +207,18 @@ fn add_big_strings(dst: &mut Vec<String>, src: &[String]) {
 
 
 // 6 Fixing an Unsafe Program: Mutating Different Array Elements
-fn main() {
-    let mut a = [0, 1, 2, 3];
-
-    let y = a[2];
-
-    let x = &mut a[1];  // 可变借用，这行走完，a 失去所有权限，只有 x 有权限
-
-    // let y = &a[2];  // 不可变借用，由于 a 没有任何权限了，所以这里也不可能给予读权限，所以报错
-    *x += y;             // 可变借用持续到这行结束，所以在此之前不能有不可变借用
-
-    println!("{a:?}");
-}
+// fn main() {
+//     let mut a = [0, 1, 2, 3];
+//
+//     let y = a[2];
+//
+//     let x = &mut a[1];  // 可变借用，这行走完，a 失去所有权限，只有 x 有权限
+//
+//     // let y = &a[2];  // 不可变借用，由于 a 没有任何权限了，所以这里也不可能给予读权限，所以报错
+//     *x += y;             // 可变借用持续到这行结束，所以在此之前不能有不可变借用
+//
+//     println!("{a:?}");
+// }
 
 
 
@@ -503,4 +503,14 @@ fn first_word3(s: &str) -> &str {
         }
     }
     &s[..]
+}
+
+fn main() {
+    let mut s = String::from("hello");
+    for &item in s.as_bytes().iter() {
+        if item == b'l' {
+            s.push_str(" world");
+        }
+    }
+    println!("{}", s);
 }
