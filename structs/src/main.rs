@@ -1,15 +1,15 @@
 
 
-fn main() {
-
-    test1();
-
-    test_tuple_sturct();
-
-    test_example();
-
-    let subject = AlwaysEqual;
-}
+// fn main() {
+//
+//     test1();
+//
+//     test_tuple_sturct();
+//
+//     test_example();
+//
+//     let subject = AlwaysEqual;
+// }
 
 struct AlwaysEqual;
 
@@ -113,7 +113,7 @@ fn test_example() {
 
     // 调用关联函数
     println!("{:#?}", Rectangle::square(30));
-    
+
 }
 
 fn area(width: u32, length: u32) -> u32 {
@@ -155,4 +155,58 @@ impl Rectangle {
 // 传递引用，不获取其所有权
 fn area_struct(rect: &Rectangle) -> u32 {
     rect.width * rect.length
+}
+
+
+// rust rover ------------------------------------------------
+
+#[derive(Copy, Clone)]
+struct Rectangle2 {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle2 {
+
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    /*
+        &mut self 可变的
+        如果想要调用下边方法，Rectangle2 创建完必须赋值给一个 mut 的变量
+     */
+    fn set_width(&mut self, width: u32) {
+        self.width = width;
+    }
+
+    /*
+        参数为 self，此方法会获取所有权
+     */
+    fn max(self, other: Self) -> Self {
+        let w = self.width.max(other.width);
+        let h = self.height.max(other.height);
+        Self {
+            width: w,
+            height: h
+        }
+    }
+
+    fn set_to_max(&mut self, other: Self) {
+        /*
+            因为 max 方法是会获得所有权的，而 参数 &mut self 是没有所有权的, 所以报错
+            修复方案：让 Rectangle2 实现 #[derive(Copy, Clone)] 后，max 方法就不再
+                    需要所有权了，实际调用时是 Rectangle2::max(*self, other);
+                    *self 解引用不会发生所有权的移动，而会发生复制，因为 Rectangle2 实现了
+                    Copy, Clone Trait, 所以可以复制了
+
+         */
+        *self = self.max(other);
+    }
+
+}
+
+fn main() {
+
+
 }
