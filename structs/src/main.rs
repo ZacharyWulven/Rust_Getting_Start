@@ -7,7 +7,11 @@ fn main() {
     test_tuple_sturct();
 
     test_example();
+
+    let subject = AlwaysEqual;
 }
+
+struct AlwaysEqual;
 
 
 struct User {
@@ -102,12 +106,14 @@ fn test_example() {
      */
     println!("{:#?}", rectangle);
 
+    println!("-----tnt------");
+    println!("{rectangle:#?}");
+
     println!("rectangle.area {}", rectangle.area());
 
     // 调用关联函数
     println!("{:#?}", Rectangle::square(30));
-
-
+    
 }
 
 fn area(width: u32, length: u32) -> u32 {
