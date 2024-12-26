@@ -207,7 +207,28 @@ impl Rectangle2 {
 
 }
 
-fn main() {
 
-
+struct NewPoint {
+    x: i32,
+    y: i32
 }
+
+fn print_point(p: &NewPoint) {
+    println!("Point at ({}, {})", p.x, p.y);
+}
+
+fn main() {
+    let mut p = NewPoint { x: 0, y: 0 };
+
+    let x = &mut p.x;
+
+    print_point(&p); // Error：这里需要 p 有读的权限，但 p 其实没有读权限
+
+    p.y = *x + 1;  // Ok：这样可以
+    *x += 1;
+    println!("{}", p.y);
+}
+
+
+
+
