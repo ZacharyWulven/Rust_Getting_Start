@@ -196,7 +196,8 @@ impl Rectangle2 {
         /*
             因为 max 方法是会获得所有权的，而 参数 &mut self 是没有所有权的, 所以报错
             修复方案：让 Rectangle2 实现 #[derive(Copy, Clone)] 后，max 方法就不再
-                    需要所有权了，实际调用时是 Rectangle2::max(*self, other);
+                    需要所有权了
+                    实际调用时是 Rectangle2::max(*self, other); 这样的
                     *self 解引用不会发生所有权的移动，而会发生复制，因为 Rectangle2 实现了
                     Copy, Clone Trait, 所以可以复制了
 
