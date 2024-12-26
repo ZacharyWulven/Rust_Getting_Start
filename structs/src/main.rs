@@ -4,9 +4,9 @@
 //
 //     test1();
 //
-//     test_tuple_sturct();
+//     // test_tuple_sturct();
 //
-//     test_example();
+//     // test_example();
 //
 //     let subject = AlwaysEqual;
 // }
@@ -35,7 +35,7 @@ fn test1() {
 
     println!("{}", user.email);
 
-    let u1 = easy_build_user(String::from("jack"), String::from("jack@gmail.com"));
+    let mut u1 = easy_build_user(String::from("jack"), String::from("jack@gmail.com"));
     println!("{}", u1.email);
 
     let u2 = User {
@@ -43,7 +43,11 @@ fn test1() {
         name: String::from("u2"),
         ..u1
     };
+
+    u1.email = String::from("u1@gmail.com");
+
     println!("{}", u2.email);
+    println!("u1 email:{}", u1.email);
 
 
 
@@ -217,17 +221,17 @@ fn print_point(p: &NewPoint) {
     println!("Point at ({}, {})", p.x, p.y);
 }
 
-// fn main() {
-//     let mut p = NewPoint { x: 0, y: 0 };
-//
-//     let x = &mut p.x;
-//
-//     print_point(&p); // Error：这里需要 p 有读的权限，但 p 其实没有读权限
-//
-//     p.y = *x + 1;  // Ok：这样可以
-//     *x += 1;
-//     println!("{}", p.y);
-// }
+fn main() {
+    let mut p = NewPoint { x: 0, y: 0 };
+
+    let x = &mut p.x;
+
+    // print_point(&p); // Error：这里需要 p 有读的权限，但 p 其实没有读权限
+
+    p.y = *x + 1;  // Ok：这样可以
+    *x += 1;
+    println!("{}", p.y);
+}
 
 // 思考题1: 下边是否能通过编译
 // fn main() {
@@ -239,15 +243,15 @@ fn print_point(p: &NewPoint) {
 // }
 
 // 思考题2: 下边是否能通过编译
-fn main() {
-    let mut p = NewPoint { x: 1, y: 2 };
-    let x = &mut p.x;
-    let y = &mut p.y;
-
-    *x += 1;
-    *y += 1;
-    println!("{} {}", p.x, p.y); // 2, 3
-}
+// fn main() {
+//     let mut p = NewPoint { x: 1, y: 2 };
+//     let x = &mut p.x;
+//     let y = &mut p.y;
+//
+//     *x += 1;
+//     *y += 1;
+//     println!("{} {}", p.x, p.y); // 2, 3
+// }
 
 
 

@@ -141,6 +141,7 @@ fn value_in_cents(coin: Coin) -> u8 {
     }
 }
 
+
 fn test_match() {
 
     let cent = value_in_cents(Coin::Quarter(USState::Alabama));
@@ -155,7 +156,8 @@ fn test_match() {
     match v {
         1 => println!("one"),
         2 => println!("two"),
-        _ => (), // 使用 _ 通配符代替，_ 通配符必须在最后一行写。它的代码是()一个空元组，即什么也不做
+        other => println!("other {:#?}", other),
+        // _ => (), // 使用 _ 通配符代替，_ 通配符必须在最后一行写。它的代码是()一个空元组，即什么也不做
     }
 
 
