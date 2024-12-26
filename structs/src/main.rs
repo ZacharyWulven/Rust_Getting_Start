@@ -217,18 +217,37 @@ fn print_point(p: &NewPoint) {
     println!("Point at ({}, {})", p.x, p.y);
 }
 
+// fn main() {
+//     let mut p = NewPoint { x: 0, y: 0 };
+//
+//     let x = &mut p.x;
+//
+//     print_point(&p); // Error：这里需要 p 有读的权限，但 p 其实没有读权限
+//
+//     p.y = *x + 1;  // Ok：这样可以
+//     *x += 1;
+//     println!("{}", p.y);
+// }
+
+// 思考题1: 下边是否能通过编译
+// fn main() {
+//     let mut a = NewPoint { x: 1, y: 2 };
+//     a.x += 1;
+//     let mut b = NewPoint { x: 1, ..a };
+//     a.x += 1;
+//     println!("{}", b.x); // 1
+// }
+
+// 思考题2: 下边是否能通过编译
 fn main() {
-    let mut p = NewPoint { x: 0, y: 0 };
-
+    let mut p = NewPoint { x: 1, y: 2 };
     let x = &mut p.x;
+    let y = &mut p.y;
 
-    print_point(&p); // Error：这里需要 p 有读的权限，但 p 其实没有读权限
-
-    p.y = *x + 1;  // Ok：这样可以
     *x += 1;
-    println!("{}", p.y);
+    *y += 1;
+    println!("{} {}", p.x, p.y); // 2, 3
 }
-
 
 
 
