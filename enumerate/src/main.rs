@@ -1,39 +1,39 @@
-fn main() {
-
-    /*
-        创建一个枚举值
-        枚举的变体（枚举值）都位于标识符的命名空间下，使用两个冒号进行分隔
-     */
-    let four = IPAddrKind::V4;
-    let six = IPAddrKind::V6;
-    println!("{:#?}", four);
-
-
-    let local = IPAddress {
-        kind: IPAddrKind::V4,
-        address: String::from("127.0.0.1"),
-    };
-    println!("{:#?}", local);
-
-    let loopback = IPAddress {
-        kind: IPAddrKind::V6,
-        address: String::from("::1"),
-    };
-    println!("{:#?}", loopback);
-
-    let home = IPAddr1::V4(127, 0, 0, 1);
-    let lb = IPAddr1::V6(String::from("::1"));
-
-    println!("{:#?}", home);
-    println!("{:#?}", lb);
-
-    test_message();
-
-    test_options();
-
-    test_match();
-
-}
+// fn main() {
+//
+//     /*
+//         创建一个枚举值
+//         枚举的变体（枚举值）都位于标识符的命名空间下，使用两个冒号进行分隔
+//      */
+//     let four = IPAddrKind::V4;
+//     let six = IPAddrKind::V6;
+//     println!("{:#?}", four);
+//
+//
+//     let local = IPAddress {
+//         kind: IPAddrKind::V4,
+//         address: String::from("127.0.0.1"),
+//     };
+//     println!("{:#?}", local);
+//
+//     let loopback = IPAddress {
+//         kind: IPAddrKind::V6,
+//         address: String::from("::1"),
+//     };
+//     println!("{:#?}", loopback);
+//
+//     let home = IPAddr1::V4(127, 0, 0, 1);
+//     let lb = IPAddr1::V6(String::from("::1"));
+//
+//     println!("{:#?}", home);
+//     println!("{:#?}", lb);
+//
+//     test_message();
+//
+//     test_options();
+//
+//     test_match();
+//
+// }
 
 // 
 fn route(ip: IPAddrKind) {
@@ -182,4 +182,34 @@ fn plus_one(x: Option<i32>) -> Option<i32> {
         None => None,
         Some(i) => Some(i + 1),
     }
+}
+
+/// ----rust rover
+
+// 1 能通过编译
+
+// fn main() {
+//     let opt = Some(String::from("Hello world"));
+//
+//     match opt {
+//         Some(_) => println!("Some"),
+//         None => println!("None"),
+//     }
+//
+//     println!("{opt:?}");
+//
+// }
+
+// * 2 不能通过编译
+
+fn main() {
+    let opt = Some(String::from("Hello world"));
+
+    // match opt {
+        match &opt {
+        // 这里发生了移动
+        Some(s) => println!("{s}"),
+        None => println!("None"),
+    }
+    println!("{opt:?}");
 }
