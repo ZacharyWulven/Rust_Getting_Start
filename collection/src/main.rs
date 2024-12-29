@@ -1,16 +1,16 @@
 use std::collections::HashMap;
 
-fn main() {
-    println!("Hello, world!");
-
-    test_vec();
-
-    example();
-
-    test_string();
-
-    test_hash_map();
-}
+// fn main() {
+//     println!("Hello, world!");
+//
+//     test_vec();
+//
+//     example();
+//
+//     test_string();
+//
+//     test_hash_map();
+// }
 
 fn test_vec() {
     /*
@@ -218,4 +218,65 @@ fn update_hash() {
     println!("{:#?}", map);
 
 
+}
+
+
+// ----- rust rover
+fn find_until(v: &Vec<i32>, n: i32, til: usize) -> Option<usize> {
+    for i in 0..til {
+        if v[i] == n {
+            return Some(i);
+        }
+    }
+    None
+}
+
+fn main() {
+    // 思考题一：
+    // find_until(&vec![1,2,3], 0, 0); // ok
+    // find_until(&vec![1,2,3], 1, 4); // ok
+    // find_until(&vec![1,2,3], 3, 3); // ok
+    // find_until(&vec![1,2,3], 4, 4); // panic
+
+    // 思考题二：下边代码能否通过编译
+    // let mut v = Vec::new();
+    // let s = String::from("Hello ");
+    // v.push(s);   // s move le
+    // v[0].push_str("world");
+    // // println!("original: {}", s); // ERROR
+    // println!("new: {}", v[0]);
+
+    // 思考题三：下边代码能否通过编译
+    // let v = vec![String::from("hello ")];
+    // let mut s = v[0];
+    // s.push_str("world");
+    // println!("new: {}", s);
+
+
+    // 思考题 4 不能通过编译
+    // let mut v = vec![1, 2, 3];
+    // for i in &mut v {
+    //     v.push(*i);
+    // }
+    // println!("4: {} {} {}", v[3], v[4], v[5]);
+
+    // 思考题5
+    let mut v = vec![1,2,3];
+    let mut v2 = Vec::new();
+    for i in &mut v {
+        v2.push(i);
+    }
+    *v2[0] = 5;
+
+    let a = *v2[0];
+    let b = v[0];
+    println!("a = {}, b = {}", a, b);
+
+}
+
+fn dup_in_place(v: &mut Vec<i32>) {
+    for n_ref in v.iter() {   // v: R
+
+        // v.push(*n_ref);   // 需要 v 有 R+W 权限
+    }
 }
