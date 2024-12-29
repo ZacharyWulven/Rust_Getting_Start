@@ -1,16 +1,46 @@
 use std::collections::HashMap;
 
-// fn main() {
-//     println!("Hello, world!");
-//
-//     test_vec();
-//
-//     example();
-//
-//     test_string();
-//
-//     test_hash_map();
-// }
+fn main() {
+    println!("Hello, world!");
+
+    // test_vec();
+
+    // example();
+
+    // test_string();
+
+    // test_hash_map();
+
+    // let vec = vec![("key1", "value1"), ("key2", "value2")];
+    // let map = vec.into_iter().collect::<HashMap<_, _>>();
+    // println!("mmap:{:?}", map);
+
+    thought();
+    thought2();
+}
+
+fn thought() {
+    let mut map = HashMap::new();
+    map.insert("k1", 0);
+    // let v1 = &map["k1"];
+    map.insert("k2", 1);
+    let v2 = &map["k2"];
+    // println!("v1: {:?}, v2: {:?}", v1, v2);
+}
+
+fn thought2() {
+    let mut h = HashMap::new();
+    for (i, c) in "hello!".chars().enumerate() {
+        h.entry(c).or_insert(Vec::new()).push(i);
+    }
+    println!("h is: {:?}", h);
+
+    let mut sum = 0;
+    for i in h.get(&'l').unwrap() {
+        sum += i;
+    }
+    println!("The sum is {}", sum);
+}
 
 fn test_vec() {
     /*
@@ -187,6 +217,10 @@ fn test_hash_map() {
         println!("key={}, value={}", k, v);
     }
 
+    // 如果没有值，默认为 0
+    let score = score_map.get(&team_name).copied().unwrap_or(0);
+    println!("__ score is {}", score);
+
     update_hash();
 }
 
@@ -231,7 +265,7 @@ fn find_until(v: &Vec<i32>, n: i32, til: usize) -> Option<usize> {
     None
 }
 
-fn main() {
+// fn main() {
     // 思考题一：
     // find_until(&vec![1,2,3], 0, 0); // ok
     // find_until(&vec![1,2,3], 1, 4); // ok
@@ -261,18 +295,18 @@ fn main() {
     // println!("4: {} {} {}", v[3], v[4], v[5]);
 
     // 思考题5
-    let mut v = vec![1,2,3];
-    let mut v2 = Vec::new();
-    for i in &mut v {
-        v2.push(i);
-    }
-    *v2[0] = 5;
+    // let mut v = vec![1,2,3];
+    // let mut v2 = Vec::new();
+    // for i in &mut v {
+    //     v2.push(i);
+    // }
+    // *v2[0] = 5;
+    //
+    // let a = *v2[0];
+    // let b = v[0];
+    // println!("a = {}, b = {}", a, b);
 
-    let a = *v2[0];
-    let b = v[0];
-    println!("a = {}, b = {}", a, b);
-
-}
+// }
 
 fn dup_in_place(v: &mut Vec<i32>) {
     for n_ref in v.iter() {   // v: R
