@@ -1,15 +1,14 @@
-use std::error::{self, Error};
+// use std::error::{self, Error};
 use std::fs::File;
-use std::io::ErrorKind;
-use std::io;
-use std::io::Read;
+use std::io::{self, ErrorKind, Error, Read};
 
 use std::net::IpAddr;
+use std::num::ParseIntError;
 
 
 // Box<dyn Error> 是一个 trait 对象
-fn main() -> Result<(), Box<dyn Error>> {
-    println!("Hello, world!");
+// fn main() -> Result<(), Box<dyn Error>> {
+//     println!("Hello, world!");
     // let f = File::open("hello.txt");
 
     // let f = match f {
@@ -50,12 +49,12 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     //let f = File::open("hello.txt").expect("文件不存在");
 
-    flood();
-
-    test();
-    let f = File::open("hello.txt")?;
-    Ok(())
-}
+    // flood();
+    //
+    // test();
+    // let f = File::open("hello.txt")?;
+    // Ok(())
+// }
 
 fn flood() {
     //let name = read_username_from_file();
@@ -142,3 +141,43 @@ fn test_guess() {
         let guess = Guess::new(guess);
     }
 }
+
+// ---- rust rover
+
+#[derive(Debug)]
+pub enum MyError {
+    Io(io::Error),
+    ParseInt(ParseIntError),
+    Other(String),
+}
+
+// io::Error 可以通过 ? 转化为 MyError
+impl From<io::Error> for MyError {
+    fn from(err: io::Error) -> Self {
+        MyError::Io(err)
+    }
+}
+
+impl From<ParseIntError> for MyError {
+    fn from(err: ParseIntError) -> Self {
+        MyError::ParseInt(err)
+    }
+}
+
+fn read_username_from_file2() -> Result<String, MyError> {
+    let mut name = String::new();
+    let file = File::open("hello.txt")?.read_to_string(&mut name)?;
+    let num = "55".parse::<i32>()?; // 报错通过 From<ParseIntError> for MyError 进行转化
+    Ok(name)
+}
+
+fn main() {
+
+
+}
+
+fn last_char_of_first_line(text: &str) -> Option<char> {
+    // next()? 使用 ? 运算符
+    text.lines().next()?.chars().last()
+}
+
