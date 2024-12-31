@@ -1,3 +1,5 @@
+use std::fmt::{Debug, Display};
+
 fn main() {
     println!("Hello, world!");
 
@@ -8,13 +10,13 @@ fn main() {
     println!("str2 is {}", str2);
 
 
-    let s = String::from("Hello");
-    let s2;
-    let b = false;
-    if b {
-        s2 = s;
-    }
-    println!("s {}", s);
+    // let s = String::from("Hello");
+    // let s2;
+    // let b = false;
+    // if b {
+    //     s2 = s;
+    // }
+    // println!("s {}", s);
 
 }
 
@@ -129,4 +131,29 @@ fn test_origin() {
     let p2 = Origin{ x: "hello", y: "world"};
     let p3 = p1.mixup(p2);
     println!("p3.x={}, p3.y={}", p3.x, p3.y);
+}
+
+
+/// ----- rust rover
+
+
+// fix need where T: Debug
+// fn print_slice<T>(v: &[T]) { // error code
+fn print_slice<T>(v: &[T]) where T: Debug {
+    for x in v {
+        println!("{x:?}"); // error: `T` cannot be formatted using `{:?}` because it doesn't implement `Debug`
+    }
+}
+
+impl Point<i32> {
+    fn f(&self) -> &i32 {
+        &self.x
+    }
+}
+
+//
+impl<T> Point<T> {
+    fn f(&self) -> &i32 { // error：跟上边同名了
+        &self.x
+    }
 }
