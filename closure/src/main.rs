@@ -67,6 +67,12 @@ fn main() {
     capture_three();
 }
 
+// '_ 表示返回的闭包依赖于某个生命周期
+// fn make_a_cloner<'a>(s_ref: &'a str) -> impl Fn() -> String + 'a {
+fn make_a_cloner(s_ref: &str) -> impl Fn() -> String + '_ {
+
+    move || s_ref.to_string()
+}
 
 fn generate_workout(intensity: u32, random_number: u32) {
     /*
