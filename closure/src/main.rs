@@ -56,7 +56,15 @@ fn main() {
 
     //generate_workout(10, 4);
 
-    capture()
+    // capture();
+    //
+    // capture3();
+    //
+    // captureOne();
+
+    capture_two();
+
+    capture_three();
 }
 
 
@@ -105,6 +113,8 @@ fn capture() {
 }
 
 fn capture1() {
+    println!("capture1 begin");
+
     let x = vec![1, 2, 3];
     /*
         声明闭包，使用 move 关键字
@@ -115,6 +125,52 @@ fn capture1() {
     let y = vec![1, 2, 3];
     assert!(equal_to_x(y));
 }
+
+fn capture3() {
+    println!("capture3 begin");
+
+    let mut x = vec![1, 2, 3];
+    let mut borrows_mutablly = || x.push(5);
+    borrows_mutablly();
+    println!("capture3 x is: {x:?}");
+
+}
+
+fn captureOne() {
+    println!("captureOne begin");
+
+    let mut x = vec![1, 2, 3];
+    println!("Before defining closure: {x:?}");
+
+    let only_borrows = || println!("From closure: {x:?}");
+    println!("Before calling closure x is: {x:?}");
+    only_borrows();
+    println!("After calling closure x is: {x:?}");
+}
+
+fn capture_two() {
+    println!("capture_two begin");
+
+    let mut x = vec![1, 2, 3];
+    println!("Before defining closure: {x:?}");
+
+    let mut borrows_mutablely = || x.push(5);
+    // println!("Before calling closure x is: {x:?}");
+    borrows_mutablely();
+    println!("After calling closure x is: {x:?}"); // [1, 2, 3, 5]
+}
+
+fn capture_three() {
+    println!("capture_three begin");
+
+    let mut x = vec![1, 2, 3];
+    println!("Before defining closure: {x:?}");
+
+    thread::spawn(move || println!("From thread: {x:?}"))
+        .join()
+        .unwrap();
+}
+
 
 #[cfg(test)]
 mod tests {
