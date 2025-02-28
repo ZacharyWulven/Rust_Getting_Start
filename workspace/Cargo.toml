@@ -5,3 +5,5 @@ members = [
     "add-one",
     "add-two",
 ]
+
+resolver = "2"

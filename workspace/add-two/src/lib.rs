@@ -1,5 +1,5 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+pub fn add_two(left: i32) -> i32 {
+    left + 2
 }
 
 #[cfg(test)]
@@ -8,7 +8,7 @@ mod tests {
 
     #[test]
     fn it_works_two() {
-        let result = add(2, 2);
+        let result = add_two(2);
         assert_eq!(result, 4);
     }
 }
